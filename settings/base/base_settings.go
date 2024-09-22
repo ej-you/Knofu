@@ -16,4 +16,6 @@ var Port string = os.Getenv("GO_PORT")
 
 
 // формат логов
-var LogFmt string = "[${time_rfc3339}] -- ${status} -- from ${remote_ip} to ${host} (${method} ${uri}) | ${bytes_in} ${bytes_out} | error: ${error} | -- User-Agent: ${user_agent}\n"
+var LogFmt string = "[${time_rfc3339}] -- ${status} -- from ${remote_ip} to ${host} (${method} ${uri}) | ${bytes_in} ${bytes_out} | error: ${error} | -> User-Agent: ${user_agent}\n"
+// формат времени
+var TimeFmt string = "06-01-02 15:04:05 -07"

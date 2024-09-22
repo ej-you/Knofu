@@ -6,7 +6,6 @@ import (
 	echo "github.com/labstack/echo/v4"
 
 	"github.com/Danil-114195722/Knofu/user/serializers"
-
 	"github.com/Danil-114195722/Knofu/settings/constants"
 )
 
@@ -27,7 +26,7 @@ func Register(context echo.Context) error {
 
 	fmt.Println(userData)
 
-	return context.String(constants.Status200, "Register endpoint")
+	return context.JSON(constants.Status201, "Register endpoint")
 }
 
 // эндпоинт для входа юзера
