@@ -8,6 +8,6 @@ import (
 
 
 func UserRoutersGroup(userGroup *echo.Group) {
-	userGroup.GET("/register", handlers.Register)
+	userGroup.POST("/register", handlers.Register)
 	userGroup.GET("/login", handlers.Login)
 }
