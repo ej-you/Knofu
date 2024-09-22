@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	echo "github.com/labstack/echo/v4"
 	echoMiddleware "github.com/labstack/echo/v4/middleware"
@@ -12,6 +13,14 @@ import (
 
 func main() {
 	echoApp := echo.New()
+
+	// если при запуске указан аргумент "dev"
+	args := os.Args
+	if len(args) > 1 {
+		if args[1] == "dev" {
+			echoApp.Debug = true
+		}
+	}
 
 	// кастомизация логирования
 	echoApp.Use(echoMiddleware.LoggerWithConfig(echoMiddleware.LoggerConfig{

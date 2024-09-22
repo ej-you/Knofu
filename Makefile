@@ -6,7 +6,7 @@ dest = ./go_app
 
 
 dev:
-	go run $(source)
+	go run $(source) dev
 
 migrate:
 	go run $(source) migrate
