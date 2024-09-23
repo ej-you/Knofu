@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"github.com/joho/godotenv"
 )
@@ -13,12 +14,15 @@ import (
 var _ error = godotenv.Load("./.env")
 
 
-// распаковка переменных окружения по переменным
-
-// Go app
+// распаковка переменных окружения для Go app
 var Port string = os.Getenv("GO_PORT")
+var SecretForJWT string = os.Getenv("SECRET")
 
-// MySQL DB
+// время истечения действия JWT токена
+var TokenExpiredTime time.Duration = time.Minute * 2
+
+
+// распаковка переменных окружения для MySQL DB
 var dbName string = os.Getenv("DB_NAME")
 var dbUser string = os.Getenv("DB_USER")
 var dbPassword string = os.Getenv("DB_PASSWORD")
@@ -36,10 +40,9 @@ var DSN string = fmt.Sprintf(
 )
 
 // формат логов
-var LogFmt string = "[${time_rfc3339}] -- ${status} -- from ${remote_ip} to ${host} (${method} ${uri}) | ${bytes_in} ${bytes_out} | error: ${error} | -> User-Agent: ${user_agent}\n"
+var LogFmt string = "[${time_rfc3339}] -- ${status} -- from ${remote_ip} to ${host} (${method} ${uri}) [time: ${latency_human}] | ${bytes_in} ${bytes_out} | error: ${error} | -> User-Agent: ${user_agent}\n"
 // формат времени
 var TimeFmt string = "06-01-02 15:04:05 -07"
-
 
 // логеры
 var InfoLog *log.Logger = log.New(os.Stdout, "[INFO]\t", log.Ldate|log.Ltime)

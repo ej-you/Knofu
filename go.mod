@@ -11,6 +11,7 @@ require (
 )
 
 require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/go-sql-driver/mysql v1.7.0 // indirect
 	github.com/gobuffalo/flect v0.3.0 // indirect
 	github.com/gofrs/uuid v4.2.0+incompatible // indirect

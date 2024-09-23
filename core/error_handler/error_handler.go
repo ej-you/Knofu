@@ -3,8 +3,6 @@ package error_handler
 import (
 	"fmt"
 	"net/http"
-	// "strings"
-	// "strconv"
 	"time"
 
 	echo "github.com/labstack/echo/v4"

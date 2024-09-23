@@ -1,8 +1,10 @@
 package services
 
 import (
-	"errors"
+	"time"
 
+	echo "github.com/labstack/echo/v4"
+	jwt "github.com/dgrijalva/jwt-go"
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/Danil-114195722/Knofu/settings"
@@ -11,14 +13,12 @@ import (
 
 // кодирование пароля в хэш
 func EncodePassword(password string) (string, error) {
-	hash, err := bcrypt.GenerateFromPassword([]byte(password), 20)
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
-		// лог об ошибке
-		settings.ErrorLog.Println(err)
-
 		// возвращаем 400, потому что скорее всего ошибка длины пароля
-		newErrorMessage := "400||" + err.Error()
-		return "", errors.New(newErrorMessage)
+		errorMap := make(map[string]string, 1)
+		errorMap["encodePassword"] = err.Error()
+		return "", echo.NewHTTPError(400, errorMap)
 	}
 	return string(hash), nil
 }
@@ -28,4 +28,22 @@ func EncodePassword(password string) (string, error) {
 func ComparePassword(password, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	return err == nil
+}
+
+
+// создание токена для юзера
+func GetJWTToken(userId uint64) (string, error) {
+	tokenStruct := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"id": userId,
+		"expired": time.Now().Add(settings.TokenExpiredTime).Unix(),
+	})
+
+	tokenString, err := tokenStruct.SignedString([]byte(settings.SecretForJWT))
+	if err != nil {
+		errorMap := make(map[string]string, 1)
+		errorMap["getJwtToken"] = err.Error()
+		return "", echo.NewHTTPError(500, errorMap)
+	}
+
+	return tokenString, nil
 }

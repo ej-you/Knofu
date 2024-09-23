@@ -24,23 +24,28 @@ func createOrRecreateIfExists(db *gorm.DB, table interface{}) {
 }
 
 
-// создание таблиц в БД по структурам в GO
+// создание таблиц в БД по структурам в Go
 func Migrate() {
 	settings.InfoLog.Println("Start migrations...")
-	db := GetConnection()
 
+	// подключение к БД
+	db, err := GetConnection()
+	settings.DieIf(err)
+	// создание таблиц
 	createOrRecreateIfExists(db, &userModels.User{})
 
 	settings.InfoLog.Println("Migrated successfully!")
 }
 
 // получение соединения с БД
-func GetConnection() (db *gorm.DB) {
-	settings.InfoLog.Println("Start connection to DB...")
+func GetConnection() (*gorm.DB, error) {
+	var connection *gorm.DB
+	var err error
 
-	connection, err := gorm.Open(mysql.Open(settings.DSN), &gorm.Config{})
-	settings.DieIf(err)
+	connection, err = gorm.Open(mysql.Open(settings.DSN), &gorm.Config{})
+	if err != nil {
+		return connection, err
+	}
 
-	settings.InfoLog.Println("Connected to DB successfully!")
-	return connection
+	return connection, nil
 }

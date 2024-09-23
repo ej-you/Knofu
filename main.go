@@ -24,7 +24,6 @@ func main() {
 		// запуск в dev режиме
 		if args[1] == "dev" {
 			echoApp.Debug = true
-			echoApp.HideBanner = false
 		// проведение миграций БД без запуска самого приложения
 		} else if args[1] == "migrate" {
 			db.Migrate()
@@ -32,6 +31,9 @@ func main() {
 		}
 	}
 
+
+	// удаление последнего слеша
+	echoApp.Pre(echoMiddleware.RemoveTrailingSlash())
 	// кастомизация логирования
 	echoApp.Use(echoMiddleware.LoggerWithConfig(echoMiddleware.LoggerConfig{
 		Format: settings.LogFmt,

@@ -23,10 +23,21 @@ func Register(context echo.Context) error {
 	if err = userData.Validate(); err != nil {
 		return err
 	}
+	// создание нового юзера в БД
+	newUser, err := userData.Create()
+	if err != nil {
+		return err
+	}
+	// формирование структуры для ответа
+	userOut, err := serializers.GetOutStruct(newUser)
+	if err != nil {
+		return err
+	}
 
-	fmt.Println(userData)
+	fmt.Println("userOut:", userOut)
+	fmt.Println("userOut.Token:", userOut.Token)
 
-	return context.JSON(http.StatusCreated, "Register endpoint")
+	return context.JSON(http.StatusCreated, userOut)
 }
 
 // эндпоинт для входа юзера
