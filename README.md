@@ -1,28 +1,17 @@
 # Knofu
 
-### Пример составления текста ошибки:
-
-```go
-import "fmt"
-import "errors"
-
-...
-
-
-var errMessage string = "Some error occured"
-var errorStatus int = 400
-
-errorWithCode := fmt.Sprintf("%s||%s", errorStatus, errMessage)
-var err error = errors.New(errorWithCode)
-```
 
 ### Пример ответа с ошибкой:
 
 ```json5
 {
-  "message": "email: Email is not in the right format",
+  "status": "error",
+  "statusCode": 400,
   "path": "/api/user/register",
-  "status": 400,
-  "timestamp": "24-09-22 22:19:02 +03"
+  "errors": {
+    "lastName": "LastName field must not be blank",
+    "password": "Password field must contain at least 8 symbols"
+  },
+  "timestamp": "24-09-23 10:49:14 +03"
 }
 ```
