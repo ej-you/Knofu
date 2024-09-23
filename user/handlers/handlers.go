@@ -2,11 +2,11 @@ package handlers
 
 import (
 	"fmt"
+	"net/http"
 
 	echo "github.com/labstack/echo/v4"
 
 	"github.com/Danil-114195722/Knofu/user/serializers"
-	"github.com/Danil-114195722/Knofu/settings/constants"
 )
 
 
@@ -26,10 +26,10 @@ func Register(context echo.Context) error {
 
 	fmt.Println(userData)
 
-	return context.JSON(constants.Status201, "Register endpoint")
+	return context.JSON(http.StatusCreated, "Register endpoint")
 }
 
 // эндпоинт для входа юзера
 func Login(context echo.Context) error {
-	return context.String(constants.Status200, "Login endpoint")
+	return context.String(http.StatusOK, "Login endpoint")
 }

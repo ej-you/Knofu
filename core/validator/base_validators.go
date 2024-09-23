@@ -1,4 +1,4 @@
-package serializers
+package validator
 
 import (
 	"fmt"
@@ -11,7 +11,7 @@ import (
 )
 
 
-func baseValidator(givenStruct validate.Validator, errors *validate.Errors) {
+func BaseValidator(givenStruct validate.Validator, errors *validate.Errors) {
 	// Получаем значение структуры (с разыменовыванием поинтера через Elem())
 	structValue := reflect.ValueOf(givenStruct).Elem()
 	// получаем кол-во полей в структуре

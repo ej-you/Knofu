@@ -1,11 +1,15 @@
 package serializers
 
 import (
-	"fmt"
-	"errors"
-	"strings"
+	// "fmt"
+	// "errors"
+	// "strings"
+
+	echo "github.com/labstack/echo/v4"
 
 	validate "github.com/gobuffalo/validate/v3"
+
+	coreValidator "github.com/Danil-114195722/Knofu/core/validator"
 )
 
 
@@ -14,28 +18,29 @@ type RegisterUserIn struct {
 	Email 		string `json:"email" validate:"required|email"`
 	FirstName 	string `json:"firstName" validate:"required"`
 	LastName 	string `json:"lastName" validate:"required"`
-	Password 	string `json:"password" validate:"required|min:8"`
+	Password 	string `json:"password" validate:"required|min:8|max:50"`
 }
 
 // базовая валидация полей по тегам
 func (self *RegisterUserIn) IsValid(errors *validate.Errors) {
-	baseValidator(self, errors)
+	coreValidator.BaseValidator(self, errors)
 }
 
 // более глубокая валидация с возвратом ошибок валидации
 func (self *RegisterUserIn) Validate() error {
 	// базовая валидация полей по тегам
-	validateErrors := validate.Validate(self)
+	var validateErrors *validate.Errors = validate.Validate(self)
+
 	if len(validateErrors.Errors) > 0 {
-		var errMessage string
+		// словарь для ошибок
+		errMap := make(map[string]string, len(validateErrors.Errors))
 
 		for key, value := range validateErrors.Errors {
-			errMessage += fmt.Sprintf("%s: %s -- ", key, value[0])
+			errMap[key] = value[0]
 		}
-		errMessage = strings.TrimSuffix(errMessage, " -- ")
-		// добавляем к сообщению код ошибки
-		errorWithCode := "400||" + string(errMessage)
-		return errors.New(errorWithCode)
+		// возвращаем *echo.HTTPError
+		httpError := echo.NewHTTPError(400, errMap)
+		return httpError
 	}
 
 	return nil

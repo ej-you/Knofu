@@ -1,4 +1,4 @@
-package settings
+package urls
 
 import (
 	echo "github.com/labstack/echo/v4"
