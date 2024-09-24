@@ -1,7 +1,6 @@
 package error_handler
 
 import (
-	"fmt"
 	"net/http"
 
 	echo "github.com/labstack/echo/v4"
@@ -11,8 +10,6 @@ import (
 
 // настройка обработчика ошибок для JWT middleware
 func CustomJWTErrorHandler(context echo.Context, err error) error {
-	fmt.Printf("err type: %T | err: %s\n", err, err)
-
 	// ошибка валидации токена (кривой/истёк)
 	tokenParsingError, ok := err.(*echojwt.TokenParsingError)
 	if ok {

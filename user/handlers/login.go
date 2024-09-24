@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	// "fmt"
 	"net/http"
 
 	echo "github.com/labstack/echo/v4"

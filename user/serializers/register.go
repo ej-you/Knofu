@@ -8,7 +8,7 @@ import (
 
 	"github.com/Danil-114195722/Knofu/user/models"
 	"github.com/Danil-114195722/Knofu/user/services"
-	tokensServices "github.com/Danil-114195722/Knofu/tokens/services"
+	tokensServices "github.com/Danil-114195722/Knofu/token/services"
 	coreDB "github.com/Danil-114195722/Knofu/core/db"
 	coreValidator "github.com/Danil-114195722/Knofu/core/validator"
 )
