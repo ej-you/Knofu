@@ -7,7 +7,7 @@ import (
 )
 
 
-func UserRoutersGroup(userGroup *echo.Group) {
-	userGroup.POST("/register", handlers.Register)
-	userGroup.GET("/login", handlers.Login)
+func RouterGroup(group *echo.Group) {
+	group.POST("/register", handlers.Register)
+	group.GET("/login", handlers.Login)
 }

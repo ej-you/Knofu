@@ -65,9 +65,7 @@ func (self *RegisterUserIn) Create() (models.User, error) {
 
 	dbConnect, err := coreDB.GetConnection()
 	if err != nil {
-		errorMap := make(map[string]string, 1)
-		errorMap["dbConnect"] = "Failed to connect to DB"
-		return models.User{}, echo.NewHTTPError(500, errorMap)
+		return models.User{}, echo.NewHTTPError(500, map[string]string{"dbConnect": "Failed to connect to DB"})
 	}
 
 	// TODO: ДОБАВИТЬ ПРОВЕРКУ НА ДУБЛИРОВАНИЕ EMAIL
@@ -89,7 +87,7 @@ type RegisterUserOut struct {
 	Email 		string `json:"email"`
 	FirstName 	string `json:"firstName"`
 	LastName 	string `json:"lastName"`
-	Token		string `json:"-"`
+	Token		string `json:"token"`
 }
 
 // формирование структуры для ответа

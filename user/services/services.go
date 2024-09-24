@@ -16,9 +16,7 @@ func EncodePassword(password string) (string, error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		// возвращаем 400, потому что скорее всего ошибка длины пароля
-		errorMap := make(map[string]string, 1)
-		errorMap["encodePassword"] = err.Error()
-		return "", echo.NewHTTPError(400, errorMap)
+		return "", echo.NewHTTPError(400, map[string]string{"encodePassword": err.Error()})
 	}
 	return string(hash), nil
 }
@@ -35,14 +33,12 @@ func ComparePassword(password, hash string) bool {
 func GetJWTToken(userId uint64) (string, error) {
 	tokenStruct := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"id": userId,
-		"expired": time.Now().Add(settings.TokenExpiredTime).Unix(),
+		"exp": time.Now().Add(settings.TokenExpiredTime).Unix(),
 	})
 
 	tokenString, err := tokenStruct.SignedString([]byte(settings.SecretForJWT))
 	if err != nil {
-		errorMap := make(map[string]string, 1)
-		errorMap["getJwtToken"] = err.Error()
-		return "", echo.NewHTTPError(500, errorMap)
+		return "", echo.NewHTTPError(500, map[string]string{"getJwtToken": err.Error()})
 	}
 
 	return tokenString, nil

@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"fmt"
+	// "fmt"
 	"net/http"
 
 	echo "github.com/labstack/echo/v4"
@@ -33,9 +33,6 @@ func Register(context echo.Context) error {
 	if err != nil {
 		return err
 	}
-
-	fmt.Println("userOut:", userOut)
-	fmt.Println("userOut.Token:", userOut.Token)
 
 	return context.JSON(http.StatusCreated, userOut)
 }
