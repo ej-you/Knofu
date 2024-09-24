@@ -8,8 +8,10 @@ import (
 
 	"github.com/Danil-114195722/Knofu/user/models"
 	"github.com/Danil-114195722/Knofu/user/services"
+
 	tokensServices "github.com/Danil-114195722/Knofu/token/services"
 	coreDB "github.com/Danil-114195722/Knofu/core/db"
+	coreErrors "github.com/Danil-114195722/Knofu/core/errors"
 	coreValidator "github.com/Danil-114195722/Knofu/core/validator"
 )
 
@@ -44,7 +46,7 @@ func (self *RegisterUserIn) Validate() error {
 		return httpError
 	}
 
-	// TODO: ДОБАВИТЬ ПРОВЕРКУ НА НАЛИЧИЕ ТАКОГО ЮЗЕРА В БД
+	// TODO: ДОБАВИТЬ ПРОВЕРКУ НА УЖЕ СУЩЕСТВОВАНИЕ ТАКОГО ЮЗЕРА В БД
 
 	return nil
 }
@@ -67,7 +69,7 @@ func (self *RegisterUserIn) Create() (models.User, error) {
 	// получение соединения с БД
 	dbConnect, err := coreDB.GetConnection()
 	if err != nil {
-		return models.User{}, echo.NewHTTPError(500, map[string]string{"dbConnect": "Failed to connect to DB"})
+		return models.User{}, coreErrors.DBConnectError
 	}
 
 	// TODO: ДОБАВИТЬ ПРОВЕРКУ НА ДУБЛИРОВАНИЕ EMAIL

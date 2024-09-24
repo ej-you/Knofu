@@ -4,10 +4,13 @@ import (
 	echo "github.com/labstack/echo/v4"
 	validate "github.com/gobuffalo/validate/v3"
 
+	userErrors "github.com/Danil-114195722/Knofu/user/errors"
 	"github.com/Danil-114195722/Knofu/user/models"
 	"github.com/Danil-114195722/Knofu/user/services"
+
 	tokensServices "github.com/Danil-114195722/Knofu/token/services"
 	coreDB "github.com/Danil-114195722/Knofu/core/db"
+	coreErrors "github.com/Danil-114195722/Knofu/core/errors"
 	coreValidator "github.com/Danil-114195722/Knofu/core/validator"
 )
 
@@ -42,7 +45,7 @@ func (self *LoginUserIn) Validate() (models.User, error) {
 	// получение соединения с БД
 	dbConnect, err := coreDB.GetConnection()
 	if err != nil {
-		return models.User{}, echo.NewHTTPError(500, map[string]string{"dbConnect": "Failed to connect to DB"})
+		return models.User{}, coreErrors.DBConnectError
 	}
 
 	// проверка на наличие юзера в БД с таким email'ом
@@ -50,14 +53,12 @@ func (self *LoginUserIn) Validate() (models.User, error) {
 	findResult := dbConnect.Where("email = ?", self.Email).First(&userFromDB)
 	// если юзер с таким email'ом не найден
 	if err = findResult.Error; err != nil {
-		httpError := echo.NewHTTPError(400, map[string]string{"email": "User with given email does not exist"})
-		return models.User{}, httpError
+		return models.User{}, userErrors.UserDoesNotExistError
 	}
 
 	// проверка пароля
 	if !services.PasswordIsCorrect(self.Password, userFromDB.Password) {
-		httpError := echo.NewHTTPError(400, map[string]string{"password": "Invalid password"})
-		return models.User{}, httpError
+		return models.User{}, userErrors.InvalidPasswordError
 	}
 
 	return userFromDB, nil

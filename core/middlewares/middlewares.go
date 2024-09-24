@@ -7,6 +7,7 @@ import (
     jwt "github.com/golang-jwt/jwt/v5"
 
     coreErrorHandler "github.com/Danil-114195722/Knofu/core/error_handler"
+    tokenErrors "github.com/Danil-114195722/Knofu/token/errors"
     "github.com/Danil-114195722/Knofu/settings"
 )
 
@@ -22,21 +23,21 @@ func checkTokenType(context echo.Context, tokenType string) error {
     // достаём map значений JWT-токена из контекста context
     token, ok := context.Get("user").(*jwt.Token)
     if !ok {
-        return echo.NewHTTPError(401, map[string]string{"token": "JWT token missing or invalid"})
+        return tokenErrors.InvalidTokenError
     }
     tokenClaims, ok := token.Claims.(jwt.MapClaims)
     if !ok {
-        return echo.NewHTTPError(401, map[string]string{"token": "Failed to get claims from token"})
+        return tokenErrors.GetTokenClaimsError
     }
 
     // приведение значенгия типа токена к string
     contextTokenType, ok := tokenClaims["type"].(string)
     if !ok {
-        return echo.NewHTTPError(401, map[string]string{"token": "Invalid payload of JWT token"})
+        return tokenErrors.GetTokenTypeError
     }
     // проверка, что тип токена соответствует tokenType
     if contextTokenType != tokenType {
-        return echo.NewHTTPError(401, map[string]string{"token": "Invalid JWT token"})
+        return tokenErrors.TokenTypeMatchingError
     }
 
     return nil

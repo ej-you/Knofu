@@ -6,6 +6,7 @@ import (
 	echo "github.com/labstack/echo/v4"
     jwt "github.com/golang-jwt/jwt/v5"
 
+	tokenErrors "github.com/Danil-114195722/Knofu/token/errors"
 	"github.com/Danil-114195722/Knofu/token/services"
 )
 
@@ -25,17 +26,17 @@ func Obtain(context echo.Context) error {
 	// достаём map значений JWT-токена из контекста context
     token, ok := context.Get("user").(*jwt.Token)
     if !ok {
-        return echo.NewHTTPError(401, map[string]string{"token": "JWT token missing or invalid"})
+        return tokenErrors.InvalidTokenError
     }
     tokenClaims, ok := token.Claims.(jwt.MapClaims)
     if !ok {
-        return echo.NewHTTPError(400, map[string]string{"token": "Failed to get claims from token"})
+        return tokenErrors.GetTokenClaimsError
     }
 
     // достаём из map'а токена id юзера
     userIdFloat, ok := tokenClaims["id"].(float64)
 	if !ok {
-	    return echo.NewHTTPError(400, map[string]string{"token": "Failed to get user id from token"})
+	    return tokenErrors.GetTokenUserIdError
 	}
 
     // создаём новый access токен для юзера по его id из refresh токена
