@@ -18,8 +18,10 @@ var _ error = godotenv.Load("./.env")
 var Port string = os.Getenv("GO_PORT")
 var SecretForJWT string = os.Getenv("SECRET")
 
-// время истечения действия JWT токена
-var TokenExpiredTime time.Duration = time.Minute * 2
+// время истечения действия refresh токена
+var RefreshTokenExpiredTime time.Duration = time.Minute * 5
+// время истечения действия access токена
+var AccessTokenExpiredTime time.Duration = time.Minute * 1
 
 
 // распаковка переменных окружения для MySQL DB
@@ -31,7 +33,7 @@ var dbPort string = os.Getenv("DB_PORT")
 
 // строка для подключения к БД из GORM
 var DSN string = fmt.Sprintf(
-	"%s:%s@tcp(%s:%s)/%s?charset=utf8mb4",
+	"%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 	dbUser,
 	dbPassword,
 	dbHost,

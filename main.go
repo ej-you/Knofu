@@ -42,7 +42,7 @@ func main() {
 	echoApp.Use(echoMiddleware.Recover())
 
 	// настройка кастомного обработчика ошибок
-	coreErrorHandler.CustomHTTPErrorHandler(echoApp)
+	coreErrorHandler.CustomErrorHandler(echoApp)
 	// настройка роутеров для эндпоинтов
 	coreUrls.InitUrlRouters(echoApp)
 

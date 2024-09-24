@@ -8,6 +8,7 @@ import (
 
 	"github.com/Danil-114195722/Knofu/user/models"
 	"github.com/Danil-114195722/Knofu/user/services"
+	tokensServices "github.com/Danil-114195722/Knofu/tokens/services"
 	coreDB "github.com/Danil-114195722/Knofu/core/db"
 	coreValidator "github.com/Danil-114195722/Knofu/core/validator"
 )
@@ -63,6 +64,7 @@ func (self *RegisterUserIn) Create() (models.User, error) {
 		Password: hashPasswd,
 	}
 
+	// получение соединения с БД
 	dbConnect, err := coreDB.GetConnection()
 	if err != nil {
 		return models.User{}, echo.NewHTTPError(500, map[string]string{"dbConnect": "Failed to connect to DB"})
@@ -83,17 +85,23 @@ func (self *RegisterUserIn) Create() (models.User, error) {
 
 // структура для выходных данных регистрации юзера
 type RegisterUserOut struct {
-	ID			uint64 `json:"id"`
-	Email 		string `json:"email"`
-	FirstName 	string `json:"firstName"`
-	LastName 	string `json:"lastName"`
-	Token		string `json:"token"`
+	ID				uint64 `json:"id"`
+	Email 			string `json:"email"`
+	FirstName 		string `json:"firstName"`
+	LastName 		string `json:"lastName"`
+	AccessToken  	string `json:"accessToken"`
+	RefreshToken 	string `json:"refreshToken"`
 }
 
 // формирование структуры для ответа
-func GetOutStruct(newUser models.User) (RegisterUserOut, error) {
-	// получение токена для юзера
-	encryptedToken, err := services.GetJWTToken(newUser.ID)
+func GetRegisterOutStruct(newUser models.User) (RegisterUserOut, error) {
+	// получение access токена для юзера
+	accessToken, err := tokensServices.GetAccessToken(newUser.ID)
+	if err != nil {
+		return RegisterUserOut{}, err
+	}
+	// получение refresh токена для юзера
+	refreshToken, err := tokensServices.GetRefreshToken(newUser.ID)
 	if err != nil {
 		return RegisterUserOut{}, err
 	}
@@ -103,7 +111,8 @@ func GetOutStruct(newUser models.User) (RegisterUserOut, error) {
 		Email: newUser.Email,
 		FirstName: newUser.FirstName,
 		LastName: newUser.LastName,
-		Token: encryptedToken,
+		AccessToken: accessToken,
+		RefreshToken: refreshToken,
 	}
 
 	return userOut, nil

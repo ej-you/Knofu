@@ -12,5 +12,5 @@ type User struct {
 	FirstName	string 		`gorm:"type:varchar(100); not null" json:"firstName"`
 	LastName	string		`gorm:"type:varchar(100); not null" json:"lastName"`
 	Password	string 		`gorm:"type:varchar(255); not null" json:"password"`
-	CreatedAt	time.Time	`gorm:"not null; autoCreateTime" json:"createdAt"`
+	CreatedAt	time.Time	`gorm:"not null" json:"createdAt"`
 }

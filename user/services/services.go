@@ -1,13 +1,8 @@
 package services
 
 import (
-	"time"
-
 	echo "github.com/labstack/echo/v4"
-	jwt "github.com/dgrijalva/jwt-go"
 	"golang.org/x/crypto/bcrypt"
-
-	"github.com/Danil-114195722/Knofu/settings"
 )
 
 
@@ -22,24 +17,8 @@ func EncodePassword(password string) (string, error) {
 }
 
 
-// сравнение пароля и хэша
-func ComparePassword(password, hash string) bool {
+// проверка введённого юзером пароля на совпадение с хэшем из БД
+func PasswordIsCorrect(password, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	return err == nil
-}
-
-
-// создание токена для юзера
-func GetJWTToken(userId uint64) (string, error) {
-	tokenStruct := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"id": userId,
-		"exp": time.Now().Add(settings.TokenExpiredTime).Unix(),
-	})
-
-	tokenString, err := tokenStruct.SignedString([]byte(settings.SecretForJWT))
-	if err != nil {
-		return "", echo.NewHTTPError(500, map[string]string{"getJwtToken": err.Error()})
-	}
-
-	return tokenString, nil
 }

@@ -13,31 +13,26 @@ import (
 // эндпоинт для регистрации юзера
 func Register(context echo.Context) error {
 	var err error
-	var userData serializers.RegisterUserIn
+	var dataIn serializers.RegisterUserIn
 
 	// парсинг JSON-body
-	if err = context.Bind(&userData); err != nil {
+	if err = context.Bind(&dataIn); err != nil {
 		return err
 	}
 	// валидация полученной структуры
-	if err = userData.Validate(); err != nil {
+	if err = dataIn.Validate(); err != nil {
 		return err
 	}
 	// создание нового юзера в БД
-	newUser, err := userData.Create()
+	newUser, err := dataIn.Create()
 	if err != nil {
 		return err
 	}
 	// формирование структуры для ответа
-	userOut, err := serializers.GetOutStruct(newUser)
+	dataOut, err := serializers.GetRegisterOutStruct(newUser)
 	if err != nil {
 		return err
 	}
 
-	return context.JSON(http.StatusCreated, userOut)
-}
-
-// эндпоинт для входа юзера
-func Login(context echo.Context) error {
-	return context.String(http.StatusOK, "Login endpoint")
+	return context.JSON(http.StatusCreated, dataOut)
 }

@@ -1,7 +1,6 @@
 package error_handler
 
 import (
-	"fmt"
 	"net/http"
 	"time"
 
@@ -12,53 +11,48 @@ import (
 
 
 // настройка обработчика ошибок
-func CustomHTTPErrorHandler(echoApp *echo.Echo) {
+func CustomErrorHandler(echoApp *echo.Echo) {
 	echoApp.HTTPErrorHandler = func(err error, context echo.Context) {
-		httpErrorHandler(err, context)
-	}
-}
-
-
-// настройка обработчика ошибок
-func httpErrorHandler(err error, context echo.Context) {
-	fmt.Println("[\nerr:", err, "\n]\n")
-
-	// проверка, является ли ошибка err структурой *echo.HTTPError (приведение типов)
-	httpError, ok := err.(*echo.HTTPError)
-	if !ok {
-		errorMap := make(map[string]string, 1)
-		errorMap["unknown"] = err.Error()
-		httpError = &echo.HTTPError{
-			Code: 500,
-			Message: errorMap,
+		// проверка, является ли ошибка err структурой *echo.HTTPError (приведение типов)
+		httpError, ok := err.(*echo.HTTPError)
+		if !ok {
+			httpError = &echo.HTTPError{
+				Code: http.StatusInternalServerError,
+				Message: map[string]string{"unknown": err.Error()},
+			}
 		}
-	}
-
-	// поле timestamp
-	strTime := time.Now().Format(settings.TimeFmt)
-	// поле path
-	requestPath := context.Path()
-
-	errMessage := map[string]interface{}{
-		"status": "error",
-		"statusCode": httpError.Code,
-		"path": requestPath,
-		"timestamp": strTime,
-		"errors": httpError.Message,
-	}
-
-	// отправка ответа
-	var respErr error
-	if !context.Response().Committed {
-		// если метод HEAD
-		if context.Request().Method == http.MethodHead {
-			respErr = context.NoContent(httpError.Code)
-		} else {
-			respErr = context.JSON(httpError.Code, errMessage)
+		// если пришла *echo.HTTPError ошибка со строкой в качестве httpError.Message
+		stringErrorMessage, ok := (httpError.Message).(string)
+		if ok {
+			httpError.Message = map[string]string{"unknown": stringErrorMessage}
 		}
 
-		if respErr != nil {
-			context.Echo().Logger.Error(respErr)
+		// поле timestamp
+		strTime := time.Now().Format(settings.TimeFmt)
+		// поле path
+		requestPath := context.Path()
+
+		errMessage := map[string]interface{}{
+			"status": "error",
+			"statusCode": httpError.Code,
+			"path": requestPath,
+			"timestamp": strTime,
+			"errors": httpError.Message,
+		}
+
+		// отправка ответа
+		var respErr error
+		if !context.Response().Committed {
+			// если метод HEAD
+			if context.Request().Method == http.MethodHead {
+				respErr = context.NoContent(httpError.Code)
+			} else {
+				respErr = context.JSON(httpError.Code, errMessage)
+			}
+
+			if respErr != nil {
+				context.Echo().Logger.Error(respErr)
+			}
 		}
 	}
 }
