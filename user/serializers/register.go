@@ -8,6 +8,7 @@ import (
 
 	"github.com/Danil-114195722/Knofu/user/models"
 	"github.com/Danil-114195722/Knofu/user/services"
+	userErrors "github.com/Danil-114195722/Knofu/user/errors"
 
 	tokensServices "github.com/Danil-114195722/Knofu/token/services"
 	coreDB "github.com/Danil-114195722/Knofu/core/db"
@@ -46,7 +47,19 @@ func (self *RegisterUserIn) Validate() error {
 		return httpError
 	}
 
-	// TODO: ДОБАВИТЬ ПРОВЕРКУ НА УЖЕ СУЩЕСТВОВАНИЕ ТАКОГО ЮЗЕРА В БД
+	// получение соединения с БД
+	dbConnect, err := coreDB.GetConnection()
+	if err != nil {
+		return coreErrors.DBConnectError
+	}
+
+	// проверка на уже существование юзера в БД с таким email'ом
+	var userFromDB models.User
+	findResult := dbConnect.Where("email = ?", self.Email).First(&userFromDB)
+	// если юзер с таким email'ом найден
+	if err = findResult.Error; err == nil {
+		return userErrors.UserAlreadyExistsError
+	}
 
 	return nil
 }
@@ -71,8 +84,6 @@ func (self *RegisterUserIn) Create() (models.User, error) {
 	if err != nil {
 		return models.User{}, coreErrors.DBConnectError
 	}
-
-	// TODO: ДОБАВИТЬ ПРОВЕРКУ НА ДУБЛИРОВАНИЕ EMAIL
 
 	createResult := dbConnect.Create(&newUser)
 	if err = createResult.Error; err != nil {
