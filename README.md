@@ -1,6 +1,12 @@
 # Knofu
 
 
+## TODO:
+1. Rate Limiter
+2. Request ID (maybe for conferences)
+3. Secure
+
+
 ### Пример ответа с ошибкой (`ErrorsDeafultSchema`):
 
 ```json5

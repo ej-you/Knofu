@@ -40,7 +40,22 @@ const docTemplate = `{
                 ],
                 "summary": "Obtain token",
                 "operationId": "token-obtain",
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/serializers.ObtainTokenOut"
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequest (See ErrorsDeafultSchema in README.md)",
+                        "schema": {}
+                    },
+                    "401": {
+                        "description": "Unauthorized (See ErrorsDeafultSchema in README.md)",
+                        "schema": {}
+                    }
+                }
             }
         },
         "/token/verify": {
@@ -62,7 +77,22 @@ const docTemplate = `{
                 ],
                 "summary": "Verify token",
                 "operationId": "token-verify",
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/serializers.VerifyTokenOut"
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequest (See ErrorsDeafultSchema in README.md)",
+                        "schema": {}
+                    },
+                    "401": {
+                        "description": "Unauthorized (See ErrorsDeafultSchema in README.md)",
+                        "schema": {}
+                    }
+                }
             }
         },
         "/user/login": {
@@ -91,8 +121,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Created",
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/serializers.LoginUserOut"
                         }
@@ -199,6 +229,19 @@ const docTemplate = `{
                 }
             }
         },
+        "serializers.ObtainTokenOut": {
+            "type": "object",
+            "properties": {
+                "accessToken": {
+                    "type": "string",
+                    "example": "c73gnetfhigcsi.gaes4inva4a.gcawinxbwi4"
+                },
+                "status": {
+                    "type": "string",
+                    "example": "ok"
+                }
+            }
+        },
         "serializers.RegisterUserIn": {
             "type": "object",
             "required": [
@@ -254,6 +297,19 @@ const docTemplate = `{
                 "refreshToken": {
                     "type": "string",
                     "example": "ghvnkvg5ic73ea.hv567eke4n5.5ugkwe47hgv4"
+                }
+            }
+        },
+        "serializers.VerifyTokenOut": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "example": "ok"
+                },
+                "statusCode": {
+                    "type": "integer",
+                    "example": 200
                 }
             }
         }

@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"time"
+	"strings"
 
 	"github.com/joho/godotenv"
 )
@@ -17,6 +18,11 @@ var _ error = godotenv.Load("./.env")
 // распаковка переменных окружения для Go app
 var Port string = os.Getenv("GO_PORT")
 var SecretForJWT string = os.Getenv("SECRET")
+
+var CorsAllowedOrigins []string = strings.Split(os.Getenv("CORS_ALLOWED_ORIGINS"), ",")
+var CorsAllowedMethods []string = strings.Split(os.Getenv("CORS_ALLOWED_METHODS"), ",")
+
+var CsrfCookieDomain string = os.Getenv("CSRF_COOKIE_DOMAIN")
 
 // время истечения действия refresh токена
 var RefreshTokenExpiredTime time.Duration = time.Minute * 5

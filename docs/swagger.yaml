@@ -35,6 +35,15 @@ definitions:
         example: ghvnkvg5ic73ea.hv567eke4n5.5ugkwe47hgv4
         type: string
     type: object
+  serializers.ObtainTokenOut:
+    properties:
+      accessToken:
+        example: c73gnetfhigcsi.gaes4inva4a.gcawinxbwi4
+        type: string
+      status:
+        example: ok
+        type: string
+    type: object
   serializers.RegisterUserIn:
     properties:
       email:
@@ -78,6 +87,15 @@ definitions:
         example: ghvnkvg5ic73ea.hv567eke4n5.5ugkwe47hgv4
         type: string
     type: object
+  serializers.VerifyTokenOut:
+    properties:
+      status:
+        example: ok
+        type: string
+      statusCode:
+        example: 200
+        type: integer
+    type: object
 host: localhost:8000
 info:
   contact: {}
@@ -93,7 +111,17 @@ paths:
       operationId: token-obtain
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/serializers.ObtainTokenOut'
+        "400":
+          description: BadRequest (See ErrorsDeafultSchema in README.md)
+          schema: {}
+        "401":
+          description: Unauthorized (See ErrorsDeafultSchema in README.md)
+          schema: {}
       security:
       - Refresh: []
       summary: Obtain token
@@ -107,7 +135,17 @@ paths:
       operationId: token-verify
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/serializers.VerifyTokenOut'
+        "400":
+          description: BadRequest (See ErrorsDeafultSchema in README.md)
+          schema: {}
+        "401":
+          description: Unauthorized (See ErrorsDeafultSchema in README.md)
+          schema: {}
       security:
       - JWT: []
       summary: Verify token
@@ -129,8 +167,8 @@ paths:
       produces:
       - application/json
       responses:
-        "201":
-          description: Created
+        "200":
+          description: OK
           schema:
             $ref: '#/definitions/serializers.LoginUserOut'
         "400":

@@ -18,7 +18,7 @@ import (
 //	@Accept			json
 //	@Produce		json
 //	@Param			loginRequest	body		serializers.LoginUserIn	true	"Login params"
-//	@Success		201				{object}	serializers.LoginUserOut
+//	@Success		200				{object}	serializers.LoginUserOut
 //	@Failure		400				{object}	error	"BadRequest (See ErrorsDeafultSchema in README.md)"
 //	@Failure		500				{object}	error	"InternalServerError (See ErrorsDeafultSchema in README.md)"
 func Login(context echo.Context) error {

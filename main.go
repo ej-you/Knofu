@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 
 	echo "github.com/labstack/echo/v4"
 	echoMiddleware "github.com/labstack/echo/v4/middleware"
@@ -60,6 +61,27 @@ func main() {
 	}))
 	// отлавливание паник для беспрерывной работы сервиса
 	echoApp.Use(echoMiddleware.Recover())
+
+	// настройка CORS
+	echoApp.Use(echoMiddleware.CORSWithConfig(echoMiddleware.CORSConfig{
+		AllowOrigins: settings.CorsAllowedOrigins,
+		AllowMethods: settings.CorsAllowedMethods,
+	}))
+
+	// // настройка CSRF
+	// echoApp.Use(echoMiddleware.CSRFWithConfig(echoMiddleware.CSRFConfig{
+	// 	TokenLookup:    "cookie:_csrf_token",
+	// 	CookiePath:     "/",
+	// 	CookieDomain:   settings.CsrfCookieDomain,
+	// 	CookieSecure:   true,
+	// 	CookieHTTPOnly: true,
+	// }))
+
+	// настройка таймаута для всех запросов на 20 секунд
+	echoApp.Use(echoMiddleware.TimeoutWithConfig(echoMiddleware.TimeoutConfig{
+		ErrorMessage: "timeout error",
+		Timeout: 20*time.Second,
+	}))
 
 	// настройка кастомного обработчика ошибок
 	coreErrorHandler.CustomErrorHandler(echoApp)
