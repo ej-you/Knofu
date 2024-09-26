@@ -7,6 +7,9 @@ import (
 	echo "github.com/labstack/echo/v4"
 	echoMiddleware "github.com/labstack/echo/v4/middleware"
 
+	echoSwagger "github.com/swaggo/echo-swagger"
+	_ "github.com/Danil-114195722/Knofu/docs"
+
 	coreErrorHandler "github.com/Danil-114195722/Knofu/core/error_handler"
 	coreUrls "github.com/Danil-114195722/Knofu/core/urls"
 	"github.com/Danil-114195722/Knofu/core/db"
@@ -14,6 +17,23 @@ import (
 )
 
 
+// Настройка Swagger документации
+//	@Title						Knofu Go API
+//	@Version					1.0
+//	@Description				This is a Knofu API written on Golang using Echo.
+//	@Host						localhost:8000
+//	@BasePath					/api
+//	@Schemes					http
+//	@Accept						json
+//	@Produce					json
+//	@SecurityDefinitions.apiKey	JWT
+//	@In							header
+//	@Name						Authorization
+//	@Description				JWT security accessToken. Please add it in the format "Bearer {AccessToken}" to authorize your requests.
+//	@SecurityDefinitions.apiKey	Refresh
+//	@In							header
+//	@Name						Authorization
+//	@Description				JWT security RefreshToken. Use it like "Bearer {RefreshToken}" to obtain new AccessToken.
 func main() {
 	echoApp := echo.New()
 	echoApp.HideBanner = true
@@ -45,6 +65,9 @@ func main() {
 	coreErrorHandler.CustomErrorHandler(echoApp)
 	// настройка роутеров для эндпоинтов
 	coreUrls.InitUrlRouters(echoApp)
+
+	// натсройка Swagger документации
+	echoApp.GET("/api/swagger/*", echoSwagger.WrapHandler)
 
 	// запуск приложения
 	echoApp.Logger.Fatal(echoApp.Start(fmt.Sprintf(":%s", settings.Port)))

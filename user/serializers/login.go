@@ -15,9 +15,10 @@ import (
 )
 
 
+// структура для входных данных входа юзера
 type LoginUserIn struct {
-	Email 		string `json:"email" validate:"required|email"`
-	Password 	string `json:"password" validate:"required"`
+	Email 		string `json:"email" myvalid:"required|email" validate:"required" example:"user@example.com"`
+	Password 	string `json:"password" myvalid:"required" validate:"required" example:"qwerty123"`
 }
 
 // базовая валидация полей по тегам
@@ -65,13 +66,14 @@ func (self *LoginUserIn) Validate() (models.User, error) {
 }
 
 
+// структура для выходных данных входа юзера
 type LoginUserOut struct {
-	ID				uint64 `json:"id"`
-	Email 			string `json:"email"`
-	FirstName 		string `json:"firstName"`
-	LastName 		string `json:"lastName"`
-	AccessToken  	string `json:"accessToken"`
-	RefreshToken 	string `json:"refreshToken"`
+	ID				uint64 `json:"id" example:"4354"`
+	Email 			string `json:"email" example:"user@example.com"`
+	FirstName 		string `json:"firstName" example:"John"`
+	LastName 		string `json:"lastName" example:"Lennon"`
+	AccessToken  	string `json:"accessToken" example:"c73gnetfhigcsi.gaes4inva4a.gcawinxbwi4"`
+	RefreshToken 	string `json:"refreshToken" example:"ghvnkvg5ic73ea.hv567eke4n5.5ugkwe47hgv4"`
 }
 
 // формирование структуры для ответа

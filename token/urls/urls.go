@@ -9,6 +9,6 @@ import (
 
 
 func RouterGroup(group *echo.Group) {
-	group.GET("/verify", handlers.Verify, coreMiddlewares.ValidateJWTMiddleware, coreMiddlewares.TokenIsAccessMiddleware)
-	group.GET("/obtain", handlers.Obtain, coreMiddlewares.ValidateJWTMiddleware, coreMiddlewares.TokenIsRefreshMiddleware)
+	group.POST("/verify", handlers.Verify, coreMiddlewares.ValidateJWTMiddleware, coreMiddlewares.TokenIsAccessMiddleware)
+	group.POST("/obtain", handlers.Obtain, coreMiddlewares.ValidateJWTMiddleware, coreMiddlewares.TokenIsRefreshMiddleware)
 }

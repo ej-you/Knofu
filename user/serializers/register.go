@@ -19,10 +19,10 @@ import (
 
 // структура для входных данных регистрации юзера
 type RegisterUserIn struct {
-	Email 		string `json:"email" validate:"required|email"`
-	FirstName 	string `json:"firstName" validate:"required"`
-	LastName 	string `json:"lastName" validate:"required"`
-	Password 	string `json:"password" validate:"required|min:8|max:50"`
+	Email 		string `json:"email" myvalid:"required|email" validate:"required" example:"user@example.com"`
+	FirstName 	string `json:"firstName" myvalid:"required" validate:"required" example:"John"`
+	LastName 	string `json:"lastName" myvalid:"required" validate:"required" example:"Lennon"`
+	Password 	string `json:"password" myvalid:"required|min:8|max:50" validate:"required" example:"qwerty123" minLength:"8" maxLength:"50"`
 }
 
 // базовая валидация полей по тегам
@@ -98,12 +98,12 @@ func (self *RegisterUserIn) Create() (models.User, error) {
 
 // структура для выходных данных регистрации юзера
 type RegisterUserOut struct {
-	ID				uint64 `json:"id"`
-	Email 			string `json:"email"`
-	FirstName 		string `json:"firstName"`
-	LastName 		string `json:"lastName"`
-	AccessToken  	string `json:"accessToken"`
-	RefreshToken 	string `json:"refreshToken"`
+	ID				uint64 `json:"id" example:"4354"`
+	Email 			string `json:"email" example:"user@example.com"`
+	FirstName 		string `json:"firstName" example:"John"`
+	LastName 		string `json:"lastName" example:"Lennon"`
+	AccessToken  	string `json:"accessToken" example:"c73gnetfhigcsi.gaes4inva4a.gcawinxbwi4"`
+	RefreshToken 	string `json:"refreshToken" example:"ghvnkvg5ic73ea.hv567eke4n5.5ugkwe47hgv4"`
 }
 
 // формирование структуры для ответа

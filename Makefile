@@ -5,7 +5,14 @@ source = ./main.go
 dest = ./go_app
 
 
-dev:
+swag-update:
+	@/home/danil/Documents/Golang/bin/swag init
+
+swag-fmt:
+	@/home/danil/Documents/Golang/bin/swag fmt
+
+
+dev: swag-update swag-fmt
 	go run $(source) dev
 
 migrate:

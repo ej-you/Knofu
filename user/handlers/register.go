@@ -11,6 +11,17 @@ import (
 
 
 // эндпоинт для регистрации юзера
+//	@Summary		Register user
+//	@Description	Register new user with form
+//	@Router			/user/register [post]
+//	@ID				user-register
+//	@Tags			user
+//	@Accept			json
+//	@Produce		json
+//	@Param			registerRequest	body		serializers.RegisterUserIn	true	"Register params"
+//	@Success		200				{object}	serializers.RegisterUserOut
+//	@Failure		400				{object}	error	"BadRequest (See ErrorsDeafultSchema in README.md)"
+//	@Failure		500				{object}	error	"InternalServerError (See ErrorsDeafultSchema in README.md)"
 func Register(context echo.Context) error {
 	var err error
 	var dataIn serializers.RegisterUserIn

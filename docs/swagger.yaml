@@ -1,0 +1,191 @@
+basePath: /api
+consumes:
+- application/json
+definitions:
+  serializers.LoginUserIn:
+    properties:
+      email:
+        example: user@example.com
+        type: string
+      password:
+        example: qwerty123
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  serializers.LoginUserOut:
+    properties:
+      accessToken:
+        example: c73gnetfhigcsi.gaes4inva4a.gcawinxbwi4
+        type: string
+      email:
+        example: user@example.com
+        type: string
+      firstName:
+        example: John
+        type: string
+      id:
+        example: 4354
+        type: integer
+      lastName:
+        example: Lennon
+        type: string
+      refreshToken:
+        example: ghvnkvg5ic73ea.hv567eke4n5.5ugkwe47hgv4
+        type: string
+    type: object
+  serializers.RegisterUserIn:
+    properties:
+      email:
+        example: user@example.com
+        type: string
+      firstName:
+        example: John
+        type: string
+      lastName:
+        example: Lennon
+        type: string
+      password:
+        example: qwerty123
+        maxLength: 50
+        minLength: 8
+        type: string
+    required:
+    - email
+    - firstName
+    - lastName
+    - password
+    type: object
+  serializers.RegisterUserOut:
+    properties:
+      accessToken:
+        example: c73gnetfhigcsi.gaes4inva4a.gcawinxbwi4
+        type: string
+      email:
+        example: user@example.com
+        type: string
+      firstName:
+        example: John
+        type: string
+      id:
+        example: 4354
+        type: integer
+      lastName:
+        example: Lennon
+        type: string
+      refreshToken:
+        example: ghvnkvg5ic73ea.hv567eke4n5.5ugkwe47hgv4
+        type: string
+    type: object
+host: localhost:8000
+info:
+  contact: {}
+  description: This is a Knofu API written on Golang using Echo.
+  title: Knofu Go API
+  version: "1.0"
+paths:
+  /token/obtain:
+    post:
+      consumes:
+      - application/json
+      description: Obtain new accessToken with provided refreshToken in header
+      operationId: token-obtain
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - Refresh: []
+      summary: Obtain token
+      tags:
+      - token
+  /token/verify:
+    post:
+      consumes:
+      - application/json
+      description: Verify accessToken sended in header
+      operationId: token-verify
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - JWT: []
+      summary: Verify token
+      tags:
+      - token
+  /user/login:
+    post:
+      consumes:
+      - application/json
+      description: Login existing user by email and password
+      operationId: user-login
+      parameters:
+      - description: Login params
+        in: body
+        name: loginRequest
+        required: true
+        schema:
+          $ref: '#/definitions/serializers.LoginUserIn'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/serializers.LoginUserOut'
+        "400":
+          description: BadRequest (See ErrorsDeafultSchema in README.md)
+          schema: {}
+        "500":
+          description: InternalServerError (See ErrorsDeafultSchema in README.md)
+          schema: {}
+      summary: Login user
+      tags:
+      - user
+  /user/register:
+    post:
+      consumes:
+      - application/json
+      description: Register new user with form
+      operationId: user-register
+      parameters:
+      - description: Register params
+        in: body
+        name: registerRequest
+        required: true
+        schema:
+          $ref: '#/definitions/serializers.RegisterUserIn'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/serializers.RegisterUserOut'
+        "400":
+          description: BadRequest (See ErrorsDeafultSchema in README.md)
+          schema: {}
+        "500":
+          description: InternalServerError (See ErrorsDeafultSchema in README.md)
+          schema: {}
+      summary: Register user
+      tags:
+      - user
+produces:
+- application/json
+schemes:
+- http
+securityDefinitions:
+  JWT:
+    description: JWT security accessToken. Please add it in the format "Bearer {AccessToken}"
+      to authorize your requests.
+    in: header
+    name: Authorization
+    type: apiKey
+  Refresh:
+    description: JWT security RefreshToken. Use it like "Bearer {RefreshToken}" to
+      obtain new AccessToken.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

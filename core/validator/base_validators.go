@@ -25,7 +25,7 @@ func BaseValidator(givenStruct validate.Validator, errors *validate.Errors) {
 		field = structValue.Type().Field(i)
 
 		// значение тега validate
-		tag = field.Tag.Get("validate")
+		tag = field.Tag.Get("myvalid")
 		if tag != "" {
 			// перебираем значения тега validate
 			for _, tagValue := range strings.Split(tag, "|") {

@@ -10,6 +10,17 @@ import (
 
 
 // эндпоинт для входа юзера
+//	@Summary		Login user
+//	@Description	Login existing user by email and password
+//	@Router			/user/login [post]
+//	@ID				user-login
+//	@Tags			user
+//	@Accept			json
+//	@Produce		json
+//	@Param			loginRequest	body		serializers.LoginUserIn	true	"Login params"
+//	@Success		201				{object}	serializers.LoginUserOut
+//	@Failure		400				{object}	error	"BadRequest (See ErrorsDeafultSchema in README.md)"
+//	@Failure		500				{object}	error	"InternalServerError (See ErrorsDeafultSchema in README.md)"
 func Login(context echo.Context) error {
 	var err error
 	var dataIn serializers.LoginUserIn

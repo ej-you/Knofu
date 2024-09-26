@@ -11,17 +11,15 @@ import (
 )
 
 
-// эндпоинт для проверки access токена на валидность
-func Verify(context echo.Context) error {
-	// вся проверка происходит в middlewares, поэтому если дело доходит до сюда, то проверка была пройдена
-	return context.JSON(http.StatusOK, map[string]interface{}{
-		"status": "ok",
-		"statusCode": http.StatusOK,
-	})
-}
-
-
 // эндпоинт для выпуска нового access токена по переданному в хедере refresh токену
+//	@Summary		Obtain token
+//	@Description	Obtain new accessToken with provided refreshToken in header
+//	@Router			/token/obtain [post]
+//	@ID				token-obtain
+//	@Tags			token
+//	@Accept			json
+//	@Produce		json
+//	@Security		Refresh
 func Obtain(context echo.Context) error {
 	// достаём map значений JWT-токена из контекста context
     token, ok := context.Get("user").(*jwt.Token)
