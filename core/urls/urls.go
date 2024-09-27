@@ -5,7 +5,7 @@ import (
 
 	userUrls "github.com/Danil-114195722/Knofu/user/urls"
 	tokenUrls "github.com/Danil-114195722/Knofu/token/urls"
-	// shortsUrls "github.com/Danil-114195722/Knofu/shorts/urls"
+	shortsUrls "github.com/Danil-114195722/Knofu/shorts/urls"
 )
 
 
@@ -14,8 +14,8 @@ func InitUrlRouters(echoApp *echo.Echo) {
 	apiUserGroup := echoApp.Group("/api/user")
 	userUrls.RouterGroup(apiUserGroup)
 
-	// apiShortsGroup := echoApp.Group("/api/shorts")
-	// shortsUrls.RouterGroup(apiShortsGroup)
+	apiShortsGroup := echoApp.Group("/api/shorts")
+	shortsUrls.RouterGroup(apiShortsGroup)
 
 	apiTokenGroup := echoApp.Group("/api/token")
 	tokenUrls.RouterGroup(apiTokenGroup)

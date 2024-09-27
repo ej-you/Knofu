@@ -214,7 +214,7 @@ produces:
 schemes:
 - http
 securityDefinitions:
-  JWT:
+  Access:
     description: JWT security accessToken. Please add it in the format "Bearer {AccessToken}"
       to authorize your requests.
     in: header

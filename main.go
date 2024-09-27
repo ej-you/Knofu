@@ -27,7 +27,7 @@ import (
 //	@Schemes					http
 //	@Accept						json
 //	@Produce					json
-//	@SecurityDefinitions.apiKey	JWT
+//	@SecurityDefinitions.apiKey	Access
 //	@In							header
 //	@Name						Authorization
 //	@Description				JWT security accessToken. Please add it in the format "Bearer {AccessToken}" to authorize your requests.
@@ -66,16 +66,8 @@ func main() {
 	echoApp.Use(echoMiddleware.CORSWithConfig(echoMiddleware.CORSConfig{
 		AllowOrigins: settings.CorsAllowedOrigins,
 		AllowMethods: settings.CorsAllowedMethods,
+		AllowCredentials: settings.CorsAllowCredentials,
 	}))
-
-	// // настройка CSRF
-	// echoApp.Use(echoMiddleware.CSRFWithConfig(echoMiddleware.CSRFConfig{
-	// 	TokenLookup:    "cookie:_csrf_token",
-	// 	CookiePath:     "/",
-	// 	CookieDomain:   settings.CsrfCookieDomain,
-	// 	CookieSecure:   true,
-	// 	CookieHTTPOnly: true,
-	// }))
 
 	// настройка таймаута для всех запросов на 20 секунд
 	echoApp.Use(echoMiddleware.TimeoutWithConfig(echoMiddleware.TimeoutConfig{

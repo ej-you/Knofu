@@ -21,8 +21,7 @@ var SecretForJWT string = os.Getenv("SECRET")
 
 var CorsAllowedOrigins []string = strings.Split(os.Getenv("CORS_ALLOWED_ORIGINS"), ",")
 var CorsAllowedMethods []string = strings.Split(os.Getenv("CORS_ALLOWED_METHODS"), ",")
-
-var CsrfCookieDomain string = os.Getenv("CSRF_COOKIE_DOMAIN")
+var CorsAllowCredentials bool = false
 
 // время истечения действия refresh токена
 var RefreshTokenExpiredTime time.Duration = time.Minute * 5

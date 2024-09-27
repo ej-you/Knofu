@@ -315,7 +315,7 @@ const docTemplate = `{
         }
     },
     "securityDefinitions": {
-        "JWT": {
+        "Access": {
             "description": "JWT security accessToken. Please add it in the format \"Bearer {AccessToken}\" to authorize your requests.",
             "type": "apiKey",
             "name": "Authorization",
