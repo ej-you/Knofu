@@ -5,7 +5,7 @@ import (
 
 	echo "github.com/labstack/echo/v4"
 
-	"github.com/Danil-114195722/Knofu/token/serializers"
+	"github.com/ej-you/Knofu/token/serializers"
 )
 
 

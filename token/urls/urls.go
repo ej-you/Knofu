@@ -3,8 +3,8 @@ package urls
 import (
 	echo "github.com/labstack/echo/v4"
 
-	coreMiddlewares "github.com/Danil-114195722/Knofu/core/middlewares"
-	"github.com/Danil-114195722/Knofu/token/handlers"
+	coreMiddlewares "github.com/ej-you/Knofu/core/middlewares"
+	"github.com/ej-you/Knofu/token/handlers"
 )
 
 

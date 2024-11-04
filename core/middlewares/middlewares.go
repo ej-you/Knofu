@@ -6,9 +6,9 @@ import (
 
     jwt "github.com/golang-jwt/jwt/v5"
 
-    coreErrorHandler "github.com/Danil-114195722/Knofu/core/error_handler"
-    tokenErrors "github.com/Danil-114195722/Knofu/token/errors"
-    "github.com/Danil-114195722/Knofu/settings"
+    coreErrorHandler "github.com/ej-you/Knofu/core/error_handler"
+    tokenErrors "github.com/ej-you/Knofu/token/errors"
+    "github.com/ej-you/Knofu/settings"
 )
 
 

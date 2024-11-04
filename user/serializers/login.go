@@ -4,14 +4,14 @@ import (
 	echo "github.com/labstack/echo/v4"
 	validate "github.com/gobuffalo/validate/v3"
 
-	userErrors "github.com/Danil-114195722/Knofu/user/errors"
-	"github.com/Danil-114195722/Knofu/user/models"
-	"github.com/Danil-114195722/Knofu/user/services"
+	userErrors "github.com/ej-you/Knofu/user/errors"
+	"github.com/ej-you/Knofu/user/models"
+	"github.com/ej-you/Knofu/user/services"
 
-	tokensServices "github.com/Danil-114195722/Knofu/token/services"
-	coreDB "github.com/Danil-114195722/Knofu/core/db"
-	coreErrors "github.com/Danil-114195722/Knofu/core/errors"
-	coreValidator "github.com/Danil-114195722/Knofu/core/validator"
+	tokensServices "github.com/ej-you/Knofu/token/services"
+	coreDB "github.com/ej-you/Knofu/core/db"
+	coreErrors "github.com/ej-you/Knofu/core/errors"
+	coreValidator "github.com/ej-you/Knofu/core/validator"
 )
 
 

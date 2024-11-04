@@ -4,9 +4,9 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 
-	userModels "github.com/Danil-114195722/Knofu/user/models"
+	userModels "github.com/ej-you/Knofu/user/models"
 
-	"github.com/Danil-114195722/Knofu/settings"
+	"github.com/ej-you/Knofu/settings"
 )
 
 

@@ -9,12 +9,12 @@ import (
 	echoMiddleware "github.com/labstack/echo/v4/middleware"
 
 	echoSwagger "github.com/swaggo/echo-swagger"
-	_ "github.com/Danil-114195722/Knofu/docs"
+	_ "github.com/ej-you/Knofu/docs"
 
-	coreErrorHandler "github.com/Danil-114195722/Knofu/core/error_handler"
-	coreUrls "github.com/Danil-114195722/Knofu/core/urls"
-	"github.com/Danil-114195722/Knofu/core/db"
-	"github.com/Danil-114195722/Knofu/settings"
+	coreErrorHandler "github.com/ej-you/Knofu/core/error_handler"
+	coreUrls "github.com/ej-you/Knofu/core/urls"
+	"github.com/ej-you/Knofu/core/db"
+	"github.com/ej-you/Knofu/settings"
 )
 
 

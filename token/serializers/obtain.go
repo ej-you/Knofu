@@ -4,8 +4,8 @@ import (
 	echo "github.com/labstack/echo/v4"
     jwt "github.com/golang-jwt/jwt/v5"
 
-	tokenErrors "github.com/Danil-114195722/Knofu/token/errors"
-	"github.com/Danil-114195722/Knofu/token/services"
+	tokenErrors "github.com/ej-you/Knofu/token/errors"
+	"github.com/ej-you/Knofu/token/services"
 )
 
 

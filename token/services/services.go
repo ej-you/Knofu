@@ -6,7 +6,7 @@ import (
 	echo "github.com/labstack/echo/v4"
 	jwt "github.com/golang-jwt/jwt/v5"
 
-	"github.com/Danil-114195722/Knofu/settings"
+	"github.com/ej-you/Knofu/settings"
 )
 
 

@@ -1,4 +1,4 @@
-module github.com/Danil-114195722/Knofu
+module github.com/ej-you/Knofu
 
 go 1.22.2
 

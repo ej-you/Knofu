@@ -3,9 +3,9 @@ package urls
 import (
 	echo "github.com/labstack/echo/v4"
 
-	userUrls "github.com/Danil-114195722/Knofu/user/urls"
-	tokenUrls "github.com/Danil-114195722/Knofu/token/urls"
-	shortsUrls "github.com/Danil-114195722/Knofu/shorts/urls"
+	userUrls "github.com/ej-you/Knofu/user/urls"
+	tokenUrls "github.com/ej-you/Knofu/token/urls"
+	shortsUrls "github.com/ej-you/Knofu/shorts/urls"
 )
 
 
